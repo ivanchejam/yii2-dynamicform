@@ -1,52 +1,62 @@
 <?php
 /**
+ * File for DynamicFormWidget class
  * @link      https://github.com/wbraganca/yii2-dynamicform
  * @copyright Copyright (c) 2014 Wanderson Bragança
  * @license   https://github.com/wbraganca/yii2-dynamicform/blob/master/LICENSE
  */
-
-namespace wbraganca\dynamicform;
+namespace backend\components\dynamicform;
 
 use Yii;
-use yii\helpers\Html;
-use yii\helpers\Json;
-use yii\base\InvalidConfigException;
 use Symfony\Component\DomCrawler\Crawler;
+use Symfony\Component\CssSelector\CssSelector;
+use yii\helpers\Json;
+use yii\helpers\Html;
+use yii\base\InvalidConfigException;
 
 /**
  * yii2-dynamicform is widget to yii2 framework to clone form elements in a nested manner, maintaining accessibility.
  *
  * @author Wanderson Bragança <wanderson.wbc@gmail.com>
+ * @package backend\components\dynamicform
  */
 class DynamicFormWidget extends \yii\base\Widget
 {
+    /**
+     * Widget name
+     * @var string
+     */
     const WIDGET_NAME = 'dynamicform';
     /**
-     * @var string
+     * @var string widget container
      */
     public $widgetContainer;
      /**
-     * @var string
+     * @var string widget body
      */
     public $widgetBody;
     /**
-     * @var string
+     * @var string widget item
      */
     public $widgetItem;
     /**
-     * @var string
+     * @var string limit
      */
     public $limit = 999;
     /**
-     * @var string
+     * @var string insert button
      */
     public $insertButton;
      /**
-     * @var string
+     * @var string delete button
      */
     public $deleteButton;
     /**
      * @var string 'bottom' or 'top';
+     */
+    public $rootOptions = false;
+    /**
+     * @var string Insert position
      */
     public $insertPosition = 'bottom';
      /**
@@ -62,15 +72,15 @@ class DynamicFormWidget extends \yii\base\Widget
      */
     public $formFields;
     /**
-     * @var integer
+     * @var integer min
      */
     public $min = 1;
     /**
-     * @var string
+     * @var array Options
      */
     private $_options;
     /**
-     * @var string
+     * @var array insert positions
      */
     private $_insertPositions = ['bottom', 'top'];
     /**
@@ -85,6 +95,7 @@ class DynamicFormWidget extends \yii\base\Widget
     /**
      * Initializes the widget.
      *
+     * {@inheritdoc}
      * @throws \yii\base\InvalidConfigException
      */
     public function init()
@@ -129,6 +140,7 @@ class DynamicFormWidget extends \yii\base\Widget
         $this->_options['insertButton']    = $this->insertButton;
         $this->_options['deleteButton']    = $this->deleteButton;
         $this->_options['insertPosition']  = $this->insertPosition;
+        $this->_options['rootOptions']  = $this->rootOptions;
         $this->_options['formId']          = $this->formId;
         $this->_options['min']             = $this->min;
         $this->_options['fields']          = [];
@@ -221,6 +233,7 @@ class DynamicFormWidget extends \yii\base\Widget
     }
 
     /**
+     * Run function
      * @inheritdoc
      */
     public function run()
@@ -254,17 +267,26 @@ class DynamicFormWidget extends \yii\base\Widget
      * Clear HTML widgetBody. Required to work with zero or more items.
      *
      * @param string $content
+     * @return string
      */
     private function removeItems($content)
     {
+        $document = new \DOMDocument('1.0', \Yii::$app->charset);
         $crawler = new Crawler();
         $crawler->addHTMLContent($content, \Yii::$app->charset);
-        $crawler->filter($this->widgetItem)->each(function ($nodes) {
-            foreach ($nodes as $node) {
-                $node->parentNode->removeChild($node);
-            }
-        });
+        $root = $document->appendChild($document->createElement('_root'));
+        $crawler->rewind();
+        $root->appendChild($document->importNode($crawler->current(), true));
+        $domxpath = new \DOMXPath($document);
+        $crawlerInverse = $domxpath->query(CssSelector::toXPath($this->widgetItem));
 
-        return $crawler->html();
+        foreach ($crawlerInverse as $elementToRemove) {
+            $parent = $elementToRemove->parentNode;
+            $parent->removeChild($elementToRemove);
+        }
+
+        $crawler->clear();
+        $crawler->add($document);
+        return $crawler->filter('body')->eq(0)->html();
     }
 }
