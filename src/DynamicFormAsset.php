@@ -1,21 +1,23 @@
 <?php
 /**
+ * File for DynamicFormAsset class
  * @link      https://github.com/wbraganca/yii2-dynamicform
  * @copyright Copyright (c) 2014 Wanderson Bragança
  * @license   https://github.com/wbraganca/yii2-dynamicform/blob/master/LICENSE
  */
 
-namespace wbraganca\dynamicform;
+namespace backend\components\dynamicform;
 
 /**
  * Asset bundle for dynamicform Widget
  *
  * @author Wanderson Bragança <wanderson.wbc@gmail.com>
+ * @package backend\components\dynamicform
  */
 class DynamicFormAsset extends \yii\web\AssetBundle
 {
     /**
-     * @inheritdoc
+     * {@inheritdoc}
      */
     public $depends = [
         'yii\web\JqueryAsset',
@@ -41,7 +43,8 @@ class DynamicFormAsset extends \yii\web\AssetBundle
     }
 
     /**
-     * @inheritdoc
+     * Init function. Set path. Set assets.
+     * {@inheritdoc}
      */
     public function init()
     {
