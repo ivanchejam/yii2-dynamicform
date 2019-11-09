@@ -263,9 +263,14 @@
     };
 
     var _updateAttributes = function(widgetOptions) {
-        var widgetOptionsRoot = _getWidgetOptionsRoot(widgetOptions);
+        console.log(widgetOptions)
+        if(widgetOptions.rootOptions){
+            opt = _getWidgetOptionsRoot(widgetOptions);
+        } else {
+            opt = widgetOptions;
+        }
 
-        $(widgetOptions.widgetItem).each(function(index) {
+        $(opt.widgetItem).each(function(index) {
             var $item = $(this);
             $(this).find('*').each(function() {
                 // update "id" attribute
