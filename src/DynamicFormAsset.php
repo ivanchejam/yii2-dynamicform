@@ -6,13 +6,13 @@
  * @license   https://github.com/wbraganca/yii2-dynamicform/blob/master/LICENSE
  */
 
-namespace backend\components\dynamicform;
+namespace ivanchejam\dynamicform;
 
 /**
  * Asset bundle for dynamicform Widget
  *
  * @author Wanderson Bragança <wanderson.wbc@gmail.com>
- * @package backend\components\dynamicform
+ * @package ivanchejam\dynamicform
  */
 class DynamicFormAsset extends \yii\web\AssetBundle
 {
