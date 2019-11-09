@@ -1,8 +1,8 @@
 {
-    "name": "wbraganca/yii2-dynamicform",
+    "name": "ivanchejam/yii2-dynamicform",
     "description": "It is widget to yii2 framework to clone form elements in a nested manner, maintaining accessibility.",
     "keywords": [
-        "wbraganca",
+        "ivanchejam",
         "yii2",
         "extension",
         "widget",
