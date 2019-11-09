@@ -195,7 +195,7 @@
 
         if (id !== undefined) {
             var matches = id.match(regexID);
-            if (matches && matches.length === 4) {
+            if (matches && matches.length === 4 && matches[2] !== 'thumb') {
                 matches[2] = matches[2].substring(1, matches[2].length - 1);
                 var identifiers = matches[2].split('-');
                 identifiers[0] = index;
