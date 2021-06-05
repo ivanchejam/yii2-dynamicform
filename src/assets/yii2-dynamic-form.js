@@ -87,9 +87,14 @@
 
         // remove "error/success" css class
         var yiiActiveFormData = $('#' + widgetOptions.formId).yiiActiveForm('data');
-        if (yiiActiveFormData !== undefined) {
-            $template.find('.' + yiiActiveFormData.settings.errorCssClass).removeClass(yiiActiveFormData.settings.errorCssClass);
-            $template.find('.' + yiiActiveFormData.settings.successCssClass).removeClass(yiiActiveFormData.settings.successCssClass);
+        if (typeof yiiActiveFormData !== "undefined" && typeof yiiActiveFormData.settings !== "undefined" ) {
+            if(typeof yiiActiveFormData.settings.errorCssClass !== "undefined" && yiiActiveFormData.settings.errorCssClass.length > 0) {
+                $template.find('.' + yiiActiveFormData.settings.errorCssClass).removeClass(yiiActiveFormData.settings.errorCssClass);
+            }
+
+            if(typeof yiiActiveFormData.settings.successCssClass !== "undefined" && yiiActiveFormData.settings.successCssClass.length > 0) {
+                $template.find('.' + yiiActiveFormData.settings.successCssClass).removeClass(yiiActiveFormData.settings.successCssClass);
+            }
         }
 
         return $template;
@@ -117,19 +122,20 @@
         var count = _count($elem, widgetOptions);
 
         if (count < widgetOptions.limit) {
-            $toclone = widgetOptions.template;
-            $newclone = $toclone.clone(false, false);
+            var toclone = $(widgetOptions.template);
+
+            var newclone = toclone.clone(false, false);
 
             if (widgetOptions.insertPosition === 'top') {
-                $elem.closest('.' + widgetOptions.widgetContainer).find(widgetOptions.widgetBody).prepend($newclone);
+                $elem.closest('.' + widgetOptions.widgetContainer).find(widgetOptions.widgetBody).prepend(newclone);
             } else {
-                $elem.closest('.' + widgetOptions.widgetContainer).find(widgetOptions.widgetBody).append($newclone);
+                $elem.closest('.' + widgetOptions.widgetContainer).find(widgetOptions.widgetBody).append(newclone);
             }
 
             _updateAttributes(widgetOptions);
             _restoreSpecialJs(widgetOptions);
             _fixFormValidaton(widgetOptions);
-            $elem.closest('.' + widgetOptions.widgetContainer).triggerHandler(events.afterInsert, $newclone);
+            $elem.closest('.' + widgetOptions.widgetContainer).triggerHandler(events.afterInsert, newclone);
         } else {
             // trigger a custom event for hooking
             $elem.closest('.' + widgetOptions.widgetContainer).triggerHandler(events.limitReached, widgetOptions.limit);
