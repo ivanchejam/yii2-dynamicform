@@ -12,7 +12,6 @@ namespace ivanchejam\dynamicform;
  * Asset bundle for dynamicform Widget
  *
  * @author Wanderson Bragança <wanderson.wbc@gmail.com>
- * @package ivanchejam\dynamicform
  */
 class DynamicFormAsset extends \yii\web\AssetBundle
 {
@@ -38,7 +37,7 @@ class DynamicFormAsset extends \yii\web\AssetBundle
             $minFiles[] = "{$file}.min.{$type}";
         }
         if (empty($this->$type)) {
-            $this->$type = YII_DEBUG ? $srcFiles : $srcFiles;
+            $this->$type = YII_DEBUG ? $srcFiles : $minFiles;
         }
     }
 

@@ -39,11 +39,11 @@
         },
 
         addItem: function (widgetOptions, e, $elem) {
-           _addItem(widgetOptions, e, $elem);
+            _addItem(widgetOptions, e, $elem);
         },
 
         deleteItem: function (widgetOptions, e, $elem) {
-           _deleteItem(widgetOptions, e, $elem);
+            _deleteItem(widgetOptions, e, $elem);
         },
 
         updateContainer: function () {
@@ -122,20 +122,19 @@
         var count = _count($elem, widgetOptions);
 
         if (count < widgetOptions.limit) {
-            var toclone = $(widgetOptions.template);
-
-            var newclone = toclone.clone(false, false);
+            $toclone = $(widgetOptions.template);
+            $newclone = $toclone.clone(false, false);
 
             if (widgetOptions.insertPosition === 'top') {
-                $elem.closest('.' + widgetOptions.widgetContainer).find(widgetOptions.widgetBody).prepend(newclone);
+                $elem.closest('.' + widgetOptions.widgetContainer).find(widgetOptions.widgetBody).prepend($newclone);
             } else {
-                $elem.closest('.' + widgetOptions.widgetContainer).find(widgetOptions.widgetBody).append(newclone);
+                $elem.closest('.' + widgetOptions.widgetContainer).find(widgetOptions.widgetBody).append($newclone);
             }
 
             _updateAttributes(widgetOptions);
             _restoreSpecialJs(widgetOptions);
             _fixFormValidaton(widgetOptions);
-            $elem.closest('.' + widgetOptions.widgetContainer).triggerHandler(events.afterInsert, newclone);
+            $elem.closest('.' + widgetOptions.widgetContainer).triggerHandler(events.afterInsert, $newclone);
         } else {
             // trigger a custom event for hooking
             $elem.closest('.' + widgetOptions.widgetContainer).triggerHandler(events.limitReached, widgetOptions.limit);
@@ -271,14 +270,9 @@
     };
 
     var _updateAttributes = function(widgetOptions) {
-        console.log(widgetOptions)
-        if(widgetOptions.rootOptions){
-            opt = _getWidgetOptionsRoot(widgetOptions);
-        } else {
-            opt = widgetOptions;
-        }
+        var widgetOptionsRoot = _getWidgetOptionsRoot(widgetOptions);
 
-        $(opt.widgetItem).each(function(index) {
+        $(widgetOptionsRoot.widgetItem).each(function(index) {
             var $item = $(this);
             $(this).find('*').each(function() {
                 // update "id" attribute
@@ -480,7 +474,7 @@
                     window[kvClose] = true;
                 });
 
-               if (configDepdrop) {
+                if (configDepdrop) {
                     var loadingText = (configDepdrop.loadingText) ? configDepdrop.loadingText : 'Loading ...';
                     initDepdropS2(id, loadingText);
                 }
