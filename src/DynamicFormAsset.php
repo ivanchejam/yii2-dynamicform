@@ -16,7 +16,7 @@ namespace ivanchejam\dynamicform;
 class DynamicFormAsset extends \yii\web\AssetBundle
 {
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public $depends = [
         'yii\web\JqueryAsset',
@@ -42,8 +42,7 @@ class DynamicFormAsset extends \yii\web\AssetBundle
     }
 
     /**
-     * Init function. Set path. Set assets.
-     * {@inheritdoc}
+     * @inheritdoc
      */
     public function init()
     {

@@ -39,11 +39,11 @@
         },
 
         addItem: function (widgetOptions, e, $elem) {
-            _addItem(widgetOptions, e, $elem);
+           _addItem(widgetOptions, e, $elem);
         },
 
         deleteItem: function (widgetOptions, e, $elem) {
-            _deleteItem(widgetOptions, e, $elem);
+           _deleteItem(widgetOptions, e, $elem);
         },
 
         updateContainer: function () {
@@ -81,21 +81,14 @@
             } else if($(this).is('select')) {
                 $(this).find('option:selected').removeAttr("selected");
             } else {
-                $(this).val('');
+                $(this).val(''); 
             }
         });
 
         // remove "error/success" css class
         var yiiActiveFormData = $('#' + widgetOptions.formId).yiiActiveForm('data');
-        if (typeof yiiActiveFormData !== "undefined" && typeof yiiActiveFormData.settings !== "undefined" ) {
-            if(typeof yiiActiveFormData.settings.errorCssClass !== "undefined" && yiiActiveFormData.settings.errorCssClass.length > 0) {
-                $template.find('.' + yiiActiveFormData.settings.errorCssClass).removeClass(yiiActiveFormData.settings.errorCssClass);
-            }
-
-            if(typeof yiiActiveFormData.settings.successCssClass !== "undefined" && yiiActiveFormData.settings.successCssClass.length > 0) {
-                $template.find('.' + yiiActiveFormData.settings.successCssClass).removeClass(yiiActiveFormData.settings.successCssClass);
-            }
-        }
+        $template.find('.' + yiiActiveFormData.settings.errorCssClass).removeClass(yiiActiveFormData.settings.errorCssClass);
+        $template.find('.' + yiiActiveFormData.settings.successCssClass).removeClass(yiiActiveFormData.settings.successCssClass);
 
         return $template;
     };
@@ -202,11 +195,11 @@
 
         if (id !== undefined) {
             var matches = id.match(regexID);
-            if (matches && matches.length === 4 && ['thumb', 'zoom'].indexOf(matches[1]) === -1) {
+            if (matches && matches.length === 4) {
                 matches[2] = matches[2].substring(1, matches[2].length - 1);
                 var identifiers = matches[2].split('-');
                 identifiers[0] = index;
-
+                
                 if (identifiers.length > 1) {
                     var widgetsOptions = [];
                     $elem.parents('div[data-dynamicform]').each(function(i){
@@ -232,7 +225,7 @@
                 $(this).removeClass('field-' + id).addClass('field-' + newID);
             });
             // update "for" attribute
-            $elem.closest(widgetOptions.widgetItem).find("label[for='" + id + "']").attr('for',newID);
+            $elem.closest(widgetOptions.widgetItem).find("label[for='" + id + "']").attr('for',newID); 
         }
 
         return newID;
@@ -474,7 +467,7 @@
                     window[kvClose] = true;
                 });
 
-                if (configDepdrop) {
+               if (configDepdrop) {
                     var loadingText = (configDepdrop.loadingText) ? configDepdrop.loadingText : 'Loading ...';
                     initDepdropS2(id, loadingText);
                 }

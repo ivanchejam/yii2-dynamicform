@@ -1,6 +1,5 @@
 <?php
 /**
- * File for DynamicFormWidget class
  * @link      https://github.com/wbraganca/yii2-dynamicform
  * @copyright Copyright (c) 2014 Wanderson Bragança
  * @license   https://github.com/wbraganca/yii2-dynamicform/blob/master/LICENSE
@@ -8,11 +7,10 @@
 namespace ivanchejam\dynamicform;
 
 use Yii;
-use Symfony\Component\DomCrawler\Crawler;
-use Symfony\Component\CssSelector\CssSelector;
-use yii\helpers\Json;
 use yii\helpers\Html;
+use yii\helpers\Json;
 use yii\base\InvalidConfigException;
+use Symfony\Component\DomCrawler\Crawler;
 
 /**
  * yii2-dynamicform is widget to yii2 framework to clone form elements in a nested manner, maintaining accessibility.
@@ -23,35 +21,31 @@ class DynamicFormWidget extends \yii\base\Widget
 {
     const WIDGET_NAME = 'dynamicform';
     /**
-     * @var string widget container
+     * @var string
      */
     public $widgetContainer;
      /**
-     * @var string widget body
+     * @var string
      */
     public $widgetBody;
     /**
-     * @var string widget item
+     * @var string
      */
     public $widgetItem;
     /**
-     * @var string limit
+     * @var string
      */
     public $limit = 999;
     /**
-     * @var string insert button
+     * @var string
      */
     public $insertButton;
      /**
-     * @var string delete button
+     * @var string
      */
     public $deleteButton;
     /**
      * @var string 'bottom' or 'top';
-     */
-    public $rootOptions = false;
-    /**
-     * @var string Insert position
      */
     public $insertPosition = 'bottom';
      /**
@@ -67,15 +61,15 @@ class DynamicFormWidget extends \yii\base\Widget
      */
     public $formFields;
     /**
-     * @var integer min
+     * @var integer
      */
     public $min = 1;
     /**
-     * @var array Options
+     * @var string
      */
     private $_options;
     /**
-     * @var array insert positions
+     * @var string
      */
     private $_insertPositions = ['bottom', 'top'];
     /**
@@ -90,7 +84,6 @@ class DynamicFormWidget extends \yii\base\Widget
     /**
      * Initializes the widget.
      *
-     * {@inheritdoc}
      * @throws \yii\base\InvalidConfigException
      */
     public function init()
@@ -135,7 +128,6 @@ class DynamicFormWidget extends \yii\base\Widget
         $this->_options['insertButton']    = $this->insertButton;
         $this->_options['deleteButton']    = $this->deleteButton;
         $this->_options['insertPosition']  = $this->insertPosition;
-        $this->_options['rootOptions']  = $this->rootOptions;
         $this->_options['formId']          = $this->formId;
         $this->_options['min']             = $this->min;
         $this->_options['fields']          = [];
@@ -223,14 +215,11 @@ class DynamicFormWidget extends \yii\base\Widget
         $js .= "});\n";
         $view->registerJs($js, $view::POS_READY);
 
-        $js = 'jQuery("#' . $this->formId . '").on("afterInit", function(e) {' . "\n";
-        $js .= '    jQuery("#' . $this->formId . '").yiiDynamicForm(' . $this->_hashVar .');' . "\n";
-        $js .= "});\n";
-        $view->registerJs($js, $view::POS_READY);
+        $js = 'jQuery("#' . $this->formId . '").yiiDynamicForm(' . $this->_hashVar .');' . "\n";
+        $view->registerJs($js, $view::POS_LOAD);
     }
 
     /**
-     * Run function
      * @inheritdoc
      */
     public function run()
@@ -264,7 +253,6 @@ class DynamicFormWidget extends \yii\base\Widget
      * Clear HTML widgetBody. Required to work with zero or more items.
      *
      * @param string $content
-     * @return string
      */
     private function removeItems($content)
     {
